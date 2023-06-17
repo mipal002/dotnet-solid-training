@@ -13,6 +13,7 @@ namespace DevBasics.CarManagement
             var model = new CarRegistrationModel();
             var configuration = new MapperConfiguration(cnfgrtn => model.CreateMappings(cnfgrtn));
             var mapper = configuration.CreateMapper();
+            var numberGenerator = new CarPoolNumberHelper(new List<ICarRegistrationNumberGenerator>() { new RegistrationNumberGeneratorToyota(), new RegistrationNumberGeneratorFord() });
 
             var bulkRegistrationServiceMock = new BulkRegistrationServiceMock();
             var leasingRegistrationRepository = new LeasingRegistrationRepository();
@@ -34,6 +35,7 @@ namespace DevBasics.CarManagement
                 carRegistrationRepositoryMock);
 
             var result = await service.RegisterCarsAsync(
+                numberGenerator,
                 new RegisterCarsModel
                 {
                     CompanyId = "Company",

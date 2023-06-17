@@ -1,7 +1,11 @@
 using System;
+using DevBasics.CarManagement.Dependencies;
 
 public class RegistrationNumberGeneratorToyota : ICarRegistrationNumberGenerator
 {
+
+    public CarBrand validFor => CarBrand.Toyota;
+
     public string GenerateRegistrationNumber(string endCustomerRegistrationReference, string registrationRegistrationId)
     {
          if (string.IsNullOrWhiteSpace(endCustomerRegistrationReference))

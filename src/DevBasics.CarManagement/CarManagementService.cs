@@ -39,7 +39,7 @@ namespace DevBasics.CarManagement
             _validator = validator;
         }
 
-        public async Task<ServiceResult> RegisterCarsAsync(RegisterCarsModel registerCarsModel, bool isForcedRegistration, Claims claims, string identity = "Unknown")
+        public async Task<ServiceResult> RegisterCarsAsync(CarPoolNumberHelper numberGenerator, RegisterCarsModel registerCarsModel, bool isForcedRegistration, Claims claims, string identity = "Unknown")
         {
             ServiceResult serviceResult = new ServiceResult();
 
@@ -77,9 +77,9 @@ namespace DevBasics.CarManagement
                     }
                 }
 
-                CarPoolNumberHelper.Generate(
-                    new RegistrationNumberGeneratorToyota(),
-                    registerCarsModel.Cars.FirstOrDefault().CarPool,
+                numberGenerator.Generate(
+                    CarBrand.Toyota,
+                    registerCarsModel.Cars.First().CarPool,
                     out string registrationId,
                     out string carPoolNumber);
 
@@ -278,6 +278,8 @@ namespace DevBasics.CarManagement
             }
         }
 
+       #region Mapper
+
         private async Task<BulkRegistrationRequest> MapToModel(RegistrationType registrationType, RegisterCarsModel cars, string transactionId)
         {
             BulkRegistrationRequest requestModel = new BulkRegistrationRequest();
@@ -353,6 +355,8 @@ namespace DevBasics.CarManagement
             return serviceResult;
         }
 
+        #endregion
+
         private IList<DeliveryRequest> GetDeliveryGroups(IEnumerable<CarRegistrationModel> cars)
         {
             List<DeliveryRequest> deliveryGroups = new List<DeliveryRequest>();
@@ -390,6 +394,8 @@ namespace DevBasics.CarManagement
 
             return deliveryGroups;
         }
+
+        #region Transaction
 
         private async Task<string> BeginTransactionGenerateId(IList<string> cars,
             string customerId, string companyId, RegistrationType registrationType, string identity, string registrationNumber = null)
@@ -706,6 +712,8 @@ namespace DevBasics.CarManagement
                 return true;
             }
         }
+
+        #endregion
 
         private async Task<ServiceResult> ForceBulkRegistration(IList<CarRegistrationModel> forceItems, string identity)
         {
