@@ -13,8 +13,11 @@ namespace DevBasics.CarManagement
     {
         private readonly IMapper _mapper;
 
+        private CarRegistrationValidator _validator;
+
         public CarManagementService(
             IMapper mapper,
+            CarRegistrationValidator validator,
             CarManagementSettings settings,
             HttpHeaderSettings httpHeader,
             IKowoLeasingApiClient apiClient,
@@ -33,6 +36,7 @@ namespace DevBasics.CarManagement
             Console.WriteLine($"Initializing service {nameof(CarManagementService)}");
 
             _mapper = mapper;
+            _validator = validator;
         }
 
         public async Task<ServiceResult> RegisterCarsAsync(RegisterCarsModel registerCarsModel, bool isForcedRegistration, Claims claims, string identity = "Unknown")
@@ -106,7 +110,7 @@ namespace DevBasics.CarManagement
                         }
                     }
 
-                    bool hasMissingData = HasMissingData(car);
+                    bool hasMissingData = _validator.HasMissingData(car);
                     if (hasMissingData)
                     {
                         Console.WriteLine($"Car {car.VehicleIdentificationNumber} has missing data. " +
@@ -144,7 +148,7 @@ namespace DevBasics.CarManagement
                         $"Registering {registrationResult.RegisteredCars.Count} cars for registration with id {registrationResult.RegistrationId}. " +
                         $"(RegistrationId = {registrationId})");
 
-                    bool hasMissingData = HasMissingData(registerCarsModel.Cars.FirstOrDefault());
+                    bool hasMissingData = _validator.HasMissingData(registerCarsModel.Cars.FirstOrDefault());
 
                     string transactionId = await BeginTransactionGenerateId(
                                             registerCarsModel.Cars.Select(x => x.VehicleIdentificationNumber).ToList(),
@@ -233,7 +237,7 @@ namespace DevBasics.CarManagement
                                 RegistrationId = dbApiCar.RegistrationId
                             };
 
-                            bool hasMissingData = HasMissingData(dbApiCar);
+                            bool hasMissingData = _validator.HasMissingData(dbApiCar);
                             if (registerCarsModel.DeactivateAutoRegistrationProcessing && !hasMissingData)
                             {
                                 Console.WriteLine(
@@ -272,15 +276,6 @@ namespace DevBasics.CarManagement
                 Console.WriteLine($"Error saving registration for {CarBrand.Toyota.ToString()} application: {ex}");
                 throw ex;
             }
-        }
-
-        public bool HasMissingData(CarRegistrationModel car)
-        {
-            return (string.IsNullOrWhiteSpace(car.CompanyId))
-                        || (string.IsNullOrWhiteSpace(car.VehicleIdentificationNumber))
-                            || (string.IsNullOrWhiteSpace(car.CustomerId))
-                                || car.DeliveryDate == null
-                                    || (string.IsNullOrWhiteSpace(car.ErpDeliveryNumber));
         }
 
         private async Task<BulkRegistrationRequest> MapToModel(RegistrationType registrationType, RegisterCarsModel cars, string transactionId)

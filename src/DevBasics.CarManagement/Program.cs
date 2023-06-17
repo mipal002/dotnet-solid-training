@@ -23,6 +23,7 @@ namespace DevBasics.CarManagement
 
             var service = new CarManagementService(
                 mapper,
+                new CarRegistrationValidator(),
                 new CarManagementSettings(),
                 new HttpHeaderSettings(),
                 new KowoLeasingApiClientMock(),
