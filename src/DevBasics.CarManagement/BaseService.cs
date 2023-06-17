@@ -64,7 +64,7 @@ namespace DevBasics.CarManagement
                 RequestContext requestContext = new RequestContext()
                 {
                     ShipTo = settingResult.SoldTo,
-                    LanguageCode = Settings.LanguageCodes["English"],
+                    LanguageCode = LanguageCodesSettings.LanguageCodes["English"],
                     TimeZone = "Europe/Berlin"
                 };
 

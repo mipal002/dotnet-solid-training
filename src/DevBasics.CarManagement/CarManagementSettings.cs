@@ -4,94 +4,105 @@ namespace DevBasics.CarManagement
 {
     public class CarManagementSettings
     {
-        public IDictionary<int, string> ApiEndpoints { get; set; } = new Dictionary<int, string>();
         public IDictionary<string, string> HttpHeaders { get; set; } = new Dictionary<string, string>();
-        public IDictionary<string, string> LanguageCodes { get; set; } = new Dictionary<string, string>();
-        public IDictionary<string, int> TimeZones { get; set; } = new Dictionary<string, int>();
 
         public CarManagementSettings()
         {
-            // Define all Leasing API Endpoints.
-            ApiEndpoints.Add(1, "/bulk-registration-devices");
-            ApiEndpoints.Add(2, "/check-transaction-status");
-            ApiEndpoints.Add(3, "/show-registration-details");
-
             // Define headers for HTTP-Requests.
             HttpHeaders.Add("Content-Type", "application/json");
-
-            // Define valid language codes (see Leasing API Spec).
-            LanguageCodes.Add("Dutch", "nl");
-            LanguageCodes.Add("English", "en");
-            LanguageCodes.Add("French", "fr");
-            LanguageCodes.Add("German", "de");
-            LanguageCodes.Add("Spanish", "es");
-            LanguageCodes.Add("Italian", "it");
-            LanguageCodes.Add("Japanese", "jp");
-            LanguageCodes.Add("Traditional Chinese", "zf");
-            LanguageCodes.Add("Simple Chinese", "zh");
-            LanguageCodes.Add("Swedish", "sv");
-            LanguageCodes.Add("Finnish", "fi");
-            LanguageCodes.Add("Danish", "dk");
-            LanguageCodes.Add("Norwegian", "no");
-            LanguageCodes.Add("Thailand", "th");
-            LanguageCodes.Add("Brazilian Portugese", "br");
-            LanguageCodes.Add("Czech", "cs");
-            LanguageCodes.Add("Hungarian", "hu");
-            LanguageCodes.Add("Polish", "pl");
-            LanguageCodes.Add("Portuguese", "pt");
-            LanguageCodes.Add("Korean", "ko");
-            LanguageCodes.Add("Malay", "my");
-            LanguageCodes.Add("Romanian", "ro");
-            LanguageCodes.Add("Slovak", "sk");
-            LanguageCodes.Add("Ukrainian", "uk");
-            LanguageCodes.Add("Hindi", "hi");
-
-            TimeZones.Add("Europe/London", 0);
-            TimeZones.Add("Europe/Lisbon", 0);
-            TimeZones.Add("America/Noronha", 120);
-            TimeZones.Add("Atlantic/South_Georgia", 120);
-            TimeZones.Add("America/Argentina/Buenos_Aires", 180);
-            TimeZones.Add("America/Sao_Paulo", 180);
-            TimeZones.Add("America/Godthab", 180);
-            TimeZones.Add("America/St_Johns", 210);
-            TimeZones.Add("America/Halifax", 240);
-            TimeZones.Add("America/Aruba", 240);
-            TimeZones.Add("America/New_York", 300);
-            TimeZones.Add("EST", 300);
-            TimeZones.Add("America/Chicago", 360);
-            TimeZones.Add("America/Mexico_City", 360);
-            TimeZones.Add("America/Phoenix", 420);
-            TimeZones.Add("America/Santa_Isabel", 480);
-            TimeZones.Add("America/Vancouver", 480);
-            TimeZones.Add("America/Los_Angeles", 480);
-            TimeZones.Add("America/Anchorage", 540);
-            TimeZones.Add("America/Yakutat", 540);
-            TimeZones.Add("Pacific/Honolulu", 600);
-            TimeZones.Add("Europe/Berlin", -60);
-            TimeZones.Add("Europe/Bratislava", -60);
-            TimeZones.Add("Europe/Bucharest", -120);
-            TimeZones.Add("Europe/Istanbul", -120);
-            TimeZones.Add("Asia/Kuwait", -180);
-            TimeZones.Add("Asia/Muscat", -240);
-            TimeZones.Add("Asia/Oral", -300);
-            TimeZones.Add("Asia/Yekaterinburg", -300);
-            TimeZones.Add("Asia/Kolkata", -330);
-            TimeZones.Add("Asia/Omsk", -360);
-            TimeZones.Add("Indian/Cocos", -390);
-            TimeZones.Add("Asia/Pontianak", -420);
-            TimeZones.Add("Asia/Bangkok", -420);
-            TimeZones.Add("Asia/Singapore", -480);
-            TimeZones.Add("Asia/Kuala_Lumpur", -480);
-            TimeZones.Add("Australia/Perth", -480);
-            TimeZones.Add("Asia/Shanghai", -480);
-            TimeZones.Add("Asia/Tokyo", -540);
-            TimeZones.Add("Asia/Seoul", -540);
-            TimeZones.Add("Australia/Adelaide", -570);
-            TimeZones.Add("Australia/Melbourne", -600);
-            TimeZones.Add("Australia/Lord_Howe", -630);
-            TimeZones.Add("Etc/GMT-11", -660);
-            TimeZones.Add("Pacific/Auckland", -720);
-            TimeZones.Add("Etc/GMT-13", -780);
         }
     }
+
+//AM BESTEN ALS conf File bereitstellen statt im Code zu definieren!
+
+public static class TimeZoneSettings {
+
+    public static IDictionary<string, int> TimeZones { get; set; } = new Dictionary<string, int>() {
+        {"Europe/London", 0},
+        {"Europe/Lisbon", 0},
+        {"America/Noronha", 120},
+        {"Atlantic/South_Georgia", 1},
+        {"America/Argentina/Buenos_Aires", 180},
+        {"America/Sao_Paulo", 180},
+        {"America/Godthab", 180},
+        {"America/St_Johns", 210},
+        {"America/Halifax", 240},
+        {"America/Aruba", 240},
+        {"America/New_York", 300},
+        {"EST", 300},
+        {"America/Chicago", 360},
+        {"America/Mexico_City", 360},
+        {"America/Phoenix", 420},
+        {"America/Santa_Isabel", 480},
+        {"America/Vancouver", 480},
+        {"America/Los_Angeles", 480},
+        {"America/Anchorage", 540},
+        {"America/Yakutat", 540},
+        {"Pacific/Honolulu", 600},
+        {"Europe/Berlin", -60},
+        {"Europe/Bratislava", -60},
+        {"Europe/Bucharest", -120},
+        {"Europe/Istanbul", -120},
+        {"Asia/Kuwait", -180},
+        {"Asia/Muscat", -240},
+        {"Asia/Oral", -300},
+        {"Asia/Yekaterinburg", -300},
+        {"Asia/Kolkata", -330},
+        {"Asia/Omsk", -360},
+        {"Indian/Cocos", -390},
+        {"Asia/Pontianak", -420},
+        {"Asia/Bangkok", -420},
+        {"Asia/Singapore", -480},
+        {"Asia/Kuala_Lumpur", -480},
+        {"Australia/Perth", -480},
+        {"Asia/Shanghai", -480},
+        {"Asia/Tokyo", -540},
+        {"Asia/Seoul", -540},
+        {"Australia/Adelaide", -570},
+        {"Australia/Melbourne", -600},
+        {"Australia/Lord_Howe", -630},
+        {"Etc/GMT-11", -660},
+        {"Pacific/Auckland", -720},
+        {"Etc/GMT-13", -780}
+    };
+}
+
+
+public static class ApiEndpointsSettings {
+    public static IDictionary<int, string> ApiEndpoints { get; set; } = new Dictionary<int, string>(){
+        {1, "/bulk-registration-devices"},
+        {2, "/check-transaction-status"},
+        {3, "/show-registration-details"},
+    };
+}
+
+public static class LanguageCodesSettings {
+    public static IDictionary<string, string> LanguageCodes { get; set; } = new Dictionary<string, string>() {
+        {"Dutch", "nl"},
+        {"English", "en"},
+        {"French", "fr"},
+        {"German", "de"},
+        {"Spanish", "es"},
+        {"Italian", "it"},
+        {"Japanese", "jp"},
+        {"Traditional Chinese", "zf"},
+        {"Simple Chinese", "zh"},
+        {"Swedish", "sv"},
+        {"Finnish", "fi"},
+        {"Danish", "dk"},
+        {"Norwegian", "no"},
+        {"Thailand", "th"},
+        {"Brazilian Portugese", "br"},
+        {"Czech", "cs"},
+        {"Hungarian", "hu"},
+        {"Polish", "pl"},
+        {"Portuguese", "pt"},
+        {"Korean", "ko"},
+        {"Malay", "my"},
+        {"Romanian", "ro"},
+        {"Slovak", "sk"},
+        {"Ukrainian", "uk"},
+        {"Hindi", "hi"},
+    };
+}
 }
